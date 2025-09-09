@@ -1,27 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  <title>Frontend Mentor | Blog preview card</title>
-  <link href="https://fonts.googleapis.com/css2?family=Figtree&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon-32x32.png"> 
+  <title>Central</title>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree&display=swap" rel="stylesheet" />
   <style>
-    .attribution {
-      font-size: 11px; text-align: center;
-    }
-    .attribution a {
-      color: hsl(228, 45%, 44%);
-    }
     body {
       background-color: #111111;
-      background-image: url('assets/images/bg.jpg');
-      text-align: center;
-      justify-content: center;
-      align-items: center;
       font-family: 'Figtree', sans-serif;
-      margin: 5%;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-repeat: repeat;
+      background-position: center;
+      transition: background-image 1s ease-in-out;
     }
+
+    /* Loader */
+    #loader {
+      width: 120px;
+      height: 20px;
+      background: linear-gradient(#000 50%,#0000 0),
+                  linear-gradient(#0000 50%,#000 0),
+                  linear-gradient(#000 50%,#0000 0),
+                  linear-gradient(#0000 50%,#000 0),
+                  linear-gradient(#000 50%,#0000 0),
+                  linear-gradient(#0000 50%,#000 0) #ddd;
+      background-size: calc(100%/6 + 1px) 200%;
+      background-repeat: no-repeat;
+      animation: l12 2s infinite;
+      margin: 20% auto;
+    }
+
+    @keyframes l12 {
+      0% {background-position: calc(0*100%/5) 100%,calc(1*100%/5) 0%,calc(2*100%/5) 100%,calc(3*100%/5) 0%,calc(4*100%/5) 100%,calc(5*100%/5) 0%}
+      16.67% {background-position: calc(0*100%/5) 0%,calc(1*100%/5) 0%,calc(2*100%/5) 100%,calc(3*100%/5) 0%,calc(4*100%/5) 100%,calc(5*100%/5) 0%}
+      33.33% {background-position: calc(0*100%/5) 0%,calc(1*100%/5) 100%,calc(2*100%/5) 100%,calc(3*100%/5) 0%,calc(4*100%/5) 100%,calc(5*100%/5) 0%}
+      50% {background-position: calc(0*100%/5) 0%,calc(1*100%/5) 100%,calc(2*100%/5) 0%,calc(3*100%/5) 0%,calc(4*100%/5) 100%,calc(5*100%/5) 0%}
+      66.67% {background-position: calc(0*100%/5) 0%,calc(1*100%/5) 100%,calc(2*100%/5) 0%,calc(3*100%/5) 100%,calc(4*100%/5) 100%,calc(5*100%/5) 0%}
+      83.33% {background-position: calc(0*100%/5) 0%,calc(1*100%/5) 100%,calc(2*100%/5) 0%,calc(3*100%/5) 100%,calc(4*100%/5) 0%,calc(5*100%/5) 0%}
+      100% {background-position: calc(0*100%/5) 0%,calc(1*100%/5) 100%,calc(2*100%/5) 0%,calc(3*100%/5) 100%,calc(4*100%/5) 0%,calc(5*100%/5) 100%}
+    }
+
+    .hidden {
+      display: none;
+    }
+
     .container {
       background-color: #222222;
       border-radius: 20px;
@@ -29,7 +55,9 @@
       text-align: left;
       display: inline-block;
       color: white;
+      margin-top: 50px;
     }
+
     .tags {
       background-color: #333333;
       color: white;
@@ -37,14 +65,84 @@
       padding: 5px;
       border-radius: 5px;
     }
+
+    /* Login box */
+    .login-box {
+      margin-top: 20%;
+      background: #222;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .login-box input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    .login-box button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #444;
+      color: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-      <p class="tags">Rant</p><br>
-    <p>Published 09/09/2025</p>
-    <h2>AHH TUTUGTOG AKO SA BUSKING</h2>
-    <p>tutugtog ako violin SANA MAGKATABI ULIT KAMI</p>
+  <!-- Loader -->
+  <div id="loader"></div>
+
+  <!-- Login -->
+  <div id="login" class="login-box hidden">
+    <h3>Enter Password</h3>
+    <input type="password" id="password" placeholder="Password" />
+    <br />
+    <button onclick="checkPassword()">Login</button>
+    <p id="error" style="color: red; display: none;">Wrong password</p>
   </div>
+
+  <!-- Blog Content -->
+  <div id="blog" class="hidden">
+    <div class="container">
+      <p class="tags">Rant</p><br />
+      <p>Published 09/09/2025</p>
+      <h2>AHH TUTUGTOG AKO SA BUSKING</h2>
+      <p>tutugtog ako violin SANA MAGKATABI ULIT KAMI</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(() => {
+        const loader = document.getElementById("loader");
+        const login = document.getElementById("login");
+
+        loader.style.display = "none";
+        login.classList.remove("hidden");
+        login.style.opacity = "1";
+      }, 2000);
+    });
+
+    function checkPassword() {
+      const input = document.getElementById("password").value;
+      const correctPassword = "XMC";
+
+      if (input === correctPassword) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("blog").classList.remove("hidden");
+        document.body.style.backgroundImage = "url('assets/images/bg.jpg')";
+      } else {
+        document.getElementById("error").style.display = "block";
+      }
+    }
+  </script>
 </body>
 </html>
